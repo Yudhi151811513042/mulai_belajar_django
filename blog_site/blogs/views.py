@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Blog
 
 def  index(request):
-    return HttpResponse('Hello Bos sekarang di /blogs!!')
+    blogs = Blog.objects.all()
+    output = ', '.join([str(blog)for blog in blogs])
+    return HttpResponse(output)
 
 # Create your views here.
