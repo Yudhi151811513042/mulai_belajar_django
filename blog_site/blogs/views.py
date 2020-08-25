@@ -4,7 +4,6 @@ from .models import Blog
 
 def  index(request):
     blogs = Blog.objects.all()
-    output = ', '.join([str(blog)for blog in blogs])
-    return HttpResponse(output)
+    return render(request, 'blogs/index.html', {'blogs': blogs})
 
 # Create your views here.
