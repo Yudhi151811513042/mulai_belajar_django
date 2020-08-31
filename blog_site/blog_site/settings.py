@@ -13,6 +13,13 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 
+#EmailField
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = 'cad6492854231a'
+EMAIL_HOST_PASSWORD = 'fba7faed81be10'
+EMAIL_PORT = '2525'
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
