@@ -2,9 +2,10 @@ from django.conf.urls import handler404, handler500
 from django.urls import path
 from . import views
 
+app_name = 'blogs'
 urlpatterns = [
-    path('', views.index),
-    path('<int:id>', views.single),
+    path('', views.index, name='index'),
+    path('<int:id>', views.single, name='single'),
 ]
 
 hander404 = 'views.handler404'
