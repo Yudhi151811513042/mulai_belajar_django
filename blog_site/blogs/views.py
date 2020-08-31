@@ -19,6 +19,14 @@ def  comment(request, id):
 
     if request.method == 'POST':
         newDesc = request.POST['desc']
+
+        if len(newDesc) < 10:
+            return render(request, 'blogs/single.html',{
+                'blog': blog,
+                'errors': 'komentar minimal 10 karakter'
+            })
+
+
         blog.comment_set.create(desc=newDesc)
         return HttpResponseRedirect('/blogs')
 # Create your views here.

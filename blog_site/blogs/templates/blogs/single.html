@@ -10,7 +10,12 @@
     <hr>
     <h2> Komentar </h2>
     <form action="{% url 'blogs:comment' blog.id %}" method="post">
+      {% if errors %}
+        <p class="is-error"><strong> {{errors}} </strong></p>
+      {% endif %}
+
       {% csrf_token %}
+
       <textarea name="desc" rows="8" cols="80"></textarea><br>
       <input type="submit" name="" value="Kirim Komentar">
     </form>
