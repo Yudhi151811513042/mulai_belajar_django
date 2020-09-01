@@ -20,6 +20,7 @@ def  single(request, id):
 def  comment(request, id):
 
     blog = get_object_or_404(Blog, pk = id)
+    form = forms.CommentForm(request.POST)
 
     if request.method == 'POST':
         form = forms.CommentForm(request.POST)
@@ -28,14 +29,7 @@ def  comment(request, id):
             blog.comment_set.create(desc=newDesc)
             messages.success(request, 'berhasil submit komentar!')
             return HttpResponseRedirect(reverse('blogs:index'))
-        '''if len(newDesc) < 10:
-            return render(request, 'blogs/single.html',{
-                'blog': blog,
-                'errors': 'komentar minimal 10 karakter'
-            })
 
+    return render(request, 'blogs/single.html', {'blog': blog, 'form': form})
 
-        blog.comment_set.create(desc=newDesc)
-        return HttpResponseRedirect('/blogs')
-        '''
 # Create your views here.
