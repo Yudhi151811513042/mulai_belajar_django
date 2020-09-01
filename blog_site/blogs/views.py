@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse
-from .models import Blog
+from .models import Blog, Comment
 from . import forms
 
 def handler404(request):
@@ -31,5 +31,19 @@ def  comment(request, id):
             return HttpResponseRedirect(reverse('blogs:index'))
 
     return render(request, 'blogs/single.html', {'blog': blog, 'form': form})
+
+def comment_edit(request, id):
+    comment = get_object_or_404(Comment, pk=id)
+    form = forms.CommentForm(instance=comment)
+
+    if request.method == 'POST':
+        form = forms.CommentForm(instance = comment, data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Komentar berhasil diupdate!')
+            return HttpResponseRedirect(reverse('blogs:index'))
+
+    return render(request, 'blogs/comment_edit.html', {'comment': comment, 'form': form})
+
 
 # Create your views here.
