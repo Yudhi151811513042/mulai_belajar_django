@@ -1,6 +1,9 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
+from django.urls import reverse
 from .models import Blog
+from . import forms
 
 def handler404(request):
     return render(request, '404.html', status=404)
@@ -11,16 +14,21 @@ def  index(request):
 
 def  single(request, id):
     blog = get_object_or_404(Blog, pk = id)
-    return render(request, 'blogs/single.html', {'blog': blog})
+    form = forms.CommentForm()
+    return render(request, 'blogs/single.html', {'blog': blog, 'form': form})
 
 def  comment(request, id):
 
     blog = get_object_or_404(Blog, pk = id)
 
     if request.method == 'POST':
-        newDesc = request.POST['desc']
-
-        if len(newDesc) < 10:
+        form = forms.CommentForm(request.POST)
+        if form.is_valid():
+            newDesc = request.POST['desc']
+            blog.comment_set.create(desc=newDesc)
+            messages.success(request, 'berhasil submit komentar!')
+            return HttpResponseRedirect(reverse('blogs:index'))
+        '''if len(newDesc) < 10:
             return render(request, 'blogs/single.html',{
                 'blog': blog,
                 'errors': 'komentar minimal 10 karakter'
@@ -29,4 +37,5 @@ def  comment(request, id):
 
         blog.comment_set.create(desc=newDesc)
         return HttpResponseRedirect('/blogs')
+        '''
 # Create your views here.
